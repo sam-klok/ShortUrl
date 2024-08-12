@@ -8,3 +8,6 @@ It loosly based on:
 1. How to Build a URL Shortener With .NET
 https://www.milanjovanovic.tech/blog/how-to-build-a-url-shortener-with-dotnet
 
+2. Working with older version of Entity Framework
+https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/getting-started-with-ef/the-entity-framework-and-aspnet-getting-started-part-1
+

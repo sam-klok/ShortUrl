@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[ShortenedUrls](
 	[ShortUrl] [varchar](512) NOT NULL,
 	[CreatedDate] [datetime] NOT NULL,
 	[CreatedBy] [varchar](20) NOT NULL,
+	[Hits] [int] DEFAULT ((0)) NOT NULL,
 ) ON [PRIMARY]
 GO
 

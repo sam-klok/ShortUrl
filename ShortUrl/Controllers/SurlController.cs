@@ -37,7 +37,7 @@ namespace ShortUrl.Controllers
                 var record = db.ShortenedUrls.FirstOrDefault(r => r.LongUrl == model.LongUrl);
                 if (record != null)
                 {
-                    return RedirectToAction("Details", record.Id);
+                    return RedirectToAction("Details", "Surl", new { Id = record.Id });
                 }
 
                 // generate ID

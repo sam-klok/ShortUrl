@@ -165,6 +165,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <None Include="SQL\CREATE TABLE [dbo].[ShortenedUrls].sql" />
+    <Content Include="SQL\select dbo.ShortenedUrls.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

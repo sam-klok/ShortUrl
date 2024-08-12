@@ -8,11 +8,15 @@ using System.Web;
 
 namespace ShortUrl.Implementations
 {
-    public class UrlShorteningService
+    public class UrlShorteningService: IDisposable
     {
         private readonly Random _random = new Random();
 
-        public async Task<string> GenerateUniqueCode()
+        public void Dispose()
+        {
+        }
+
+        public string GenerateUniqueCode()
         {
             var codeChars = new char[ShortLinkSettings.Length];
             int maxValue = ShortLinkSettings.Alphabet.Length;
@@ -32,10 +36,6 @@ namespace ShortUrl.Implementations
                     if (!dbContext.ShortenedUrls.Any(r => r.Id == code))
                         return code;
                 }
-                //if (!await DbLifeContext.ShortenedUrls.AnyAsync(s => s.Id == code))
-                //{
-                //    return code;
-                //}
             }
         }
     }

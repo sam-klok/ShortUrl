@@ -1,0 +1,58 @@
+﻿@model ShortUrl.Models.ShortenedUrl
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>ShortenedUrl</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.LongUrl)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LongUrl)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ShortUrl)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ShortUrl)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

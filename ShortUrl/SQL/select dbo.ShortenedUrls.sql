@@ -1,0 +1,1 @@
+select * from [dbo].[ShortenedUrls] (nolock)

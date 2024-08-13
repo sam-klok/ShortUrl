@@ -1,6 +1,11 @@
 Application to shorten URLs and store them in the database.
 Currently I'm writing it on standard .Net Framework 4.7.2 and MVC.
 I'm planning to rewrite it under .Net 6 and Blazor later.
+
+It convert long URL to short URL. 
+E.g. https://stackoverflow.com/questions/3863678/asp-net-mvc-controller-parameter-optional-i-e-indexint-id 
+became https://localhost:44311/S/U/McWvRsU
+
 Thank you,
 Sergiy
 

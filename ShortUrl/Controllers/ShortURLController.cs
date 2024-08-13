@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -12,11 +13,11 @@ using ShortUrl.Models;
 
 namespace ShortUrl.Controllers
 {
-    public class SurlController : Controller
+    public class ShortURLController : Controller
     {
         private DbLifeContext db = new DbLifeContext();
 
-        // GET: Surl
+        // GET: ShortURL
         public ActionResult Index()
         {
             return View(db.ShortenedUrls.ToList());
@@ -24,7 +25,8 @@ namespace ShortUrl.Controllers
 
         public ActionResult Add()
         {
-            return View();
+            var model = new AddUrlModel();
+            return View(model);
         }
 
         [HttpPost]
@@ -33,11 +35,18 @@ namespace ShortUrl.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!Uri.TryCreate(model.LongUrl, UriKind.Absolute, out _))
+                {
+                    ModelState.AddModelError("", "The specified URL is invalid.");
+                    return View(model);
+                    //return Results.BadRequest("The specified URL is invalid.");
+                }
+
                 // check if long URL already exists in the database
                 var record = db.ShortenedUrls.FirstOrDefault(r => r.LongUrl == model.LongUrl);
                 if (record != null)
                 {
-                    return RedirectToAction("Details", "Surl", new { Id = record.Id });
+                    return RedirectToAction("Details", "ShortURL", new { Id = record.Id });
                 }
 
                 // generate ID
@@ -49,21 +58,20 @@ namespace ShortUrl.Controllers
                     shortUrl.Id = urlShorteningService.GenerateUniqueCode();
                 }
 
-                shortUrl.ShortUrl = $"https://localhost:44311/Surl/Red/{shortUrl.Id}";
+                //shortUrl.ShortUrl = $"https://localhost:44311/S/{shortUrl.Id}";
+                shortUrl.ShortUrl = ConfigurationManager.AppSettings["ShortURL"] + shortUrl.Id;
                 shortUrl.CreatedDate = DateTime.Now;
                 shortUrl.CreatedBy = "Sergiy";
 
                 db.ShortenedUrls.Add(shortUrl);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Surl", new { Id = shortUrl.Id });
-
-                //return RedirectToAction("Index");
+                return RedirectToAction("Details", "ShortURL", new { Id = shortUrl.Id });
             }
 
             return View(model);
         }
 
-        // GET: Surl/Details/5
+        // GET: ShortURL/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -78,13 +86,13 @@ namespace ShortUrl.Controllers
             return View(shortenedUrl);
         }
 
-        // GET: Surl/Create
+        // GET: ShortURL/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Surl/Create
+        // POST: ShortURL/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -101,7 +109,7 @@ namespace ShortUrl.Controllers
             return View(shortenedUrl);
         }
 
-        // GET: Surl/Edit/5
+        // GET: ShortURL/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -116,7 +124,7 @@ namespace ShortUrl.Controllers
             return View(shortenedUrl);
         }
 
-        // POST: Surl/Edit/5
+        // POST: ShortURL/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -132,7 +140,7 @@ namespace ShortUrl.Controllers
             return View(shortenedUrl);
         }
 
-        // GET: Surl/Delete/5
+        // GET: ShortURL/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -147,7 +155,7 @@ namespace ShortUrl.Controllers
             return View(shortenedUrl);
         }
 
-        // POST: Surl/Delete/5
+        // POST: ShortURL/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
@@ -157,6 +165,8 @@ namespace ShortUrl.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+    
 
         protected override void Dispose(bool disposing)
         {

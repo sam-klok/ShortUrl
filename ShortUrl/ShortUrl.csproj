@@ -130,7 +130,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SurlController.cs" />
+    <Compile Include="Controllers\SController.cs" />
+    <Compile Include="Controllers\ShortURLController.cs" />
     <Compile Include="DbLifeContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,15 +181,16 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Surl\Create.cshtml" />
-    <Content Include="Views\Surl\Delete.cshtml" />
-    <Content Include="Views\Surl\Details.cshtml" />
-    <Content Include="Views\Surl\Edit.cshtml" />
-    <Content Include="Views\Surl\Index.cshtml" />
-    <Content Include="Views\Surl\Add.cshtml" />
+    <Content Include="Views\ShortURL\Create.cshtml" />
+    <Content Include="Views\ShortURL\Delete.cshtml" />
+    <Content Include="Views\ShortURL\Details.cshtml" />
+    <Content Include="Views\ShortURL\Edit.cshtml" />
+    <Content Include="Views\ShortURL\Index.cshtml" />
+    <Content Include="Views\ShortURL\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Short\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

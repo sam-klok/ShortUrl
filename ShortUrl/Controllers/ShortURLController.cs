@@ -17,6 +17,56 @@ namespace ShortUrl.Controllers
     {
         private DbLifeContext db = new DbLifeContext();
 
+        public ActionResult All()
+        {
+            var model = new AllUrlModel();
+
+            model.ShortenedUrls = db.ShortenedUrls.ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult All([Bind(Include = "LongUrl")] AllUrlModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!Uri.TryCreate(model.LongUrl, UriKind.Absolute, out _))
+                {
+                    ModelState.AddModelError("", "The specified URL is invalid.");
+                    return View(model);
+                    //return Results.BadRequest("The specified URL is invalid.");
+                }
+
+                // check if long URL already exists in the database
+                var record = db.ShortenedUrls.FirstOrDefault(r => r.LongUrl == model.LongUrl);
+                if (record != null)
+                {
+                    return RedirectToAction("Details", "ShortURL", new { Id = record.Id });
+                }
+
+                // generate ID
+                var shortUrl = new ShortenedUrl();
+                shortUrl.LongUrl = model.LongUrl;
+
+                using (var urlShorteningService = new UrlShorteningService())
+                {
+                    shortUrl.Id = urlShorteningService.GenerateUniqueCode();
+                }
+
+                //shortUrl.ShortUrl = $"https://localhost:44311/S/{shortUrl.Id}";
+                shortUrl.ShortUrl = ConfigurationManager.AppSettings["ShortURL"] + shortUrl.Id;
+                shortUrl.CreatedDate = DateTime.Now;
+                shortUrl.CreatedBy = "Sergiy";
+
+                db.ShortenedUrls.Add(shortUrl);
+                db.SaveChanges();
+                return RedirectToAction("Details", "ShortURL", new { Id = shortUrl.Id });
+            }
+
+            return View(model);
+        }
+
         // GET: ShortURL
         public ActionResult Index()
         {

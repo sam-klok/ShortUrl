@@ -142,6 +142,7 @@
     <Compile Include="Implementations\UrlShorteningService.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AddUrlModel.cs" />
+    <Compile Include="Models\AllUrlModel.cs" />
     <Compile Include="Models\ShortenedUrl.cs" />
     <Compile Include="Models\ShortLinkSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +179,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <None Include="SQL\CREATE TABLE [dbo].[ShortenedUrls].sql" />
     <Content Include="SQL\select dbo.ShortenedUrls.sql" />
+    <Content Include="Views\ShortURL\All.cshtml" />
     <None Include="Views\ShortURL\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

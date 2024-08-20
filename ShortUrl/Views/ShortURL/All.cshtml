@@ -1,0 +1,75 @@
+﻿@model ShortUrl.Models.AllUrlModel
+@using GridMvc.Html
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@*<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>*@
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Gridmvc")
+    
+    
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>ShortenedUrl</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.LongUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LongUrl, new { htmlAttributes = new { @class = "form-control", @style = "width:80%" } })
+                    @Html.ValidationMessageFor(model => model.LongUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Grid(Model.ShortenedUrls).Named("ShortUrlListGrid").Columns(c =>
+            {
+            c.Add(x => x.LongUrl).Titled("Long Url").Filterable(true).Sortable(true);
+            c.Add(x => x.ShortUrl).Titled("Short Url").Filterable(true).Sortable(true);
+            c.Add(x => x.CreatedDate).Titled("Created Date").Filterable(true).Sortable(true);
+            c.Add(x => x.CreatedBy).Titled("Created By").Filterable(true).Sortable(true);
+            c.Add(x => x.Hits).Titled("Hits").Filterable(true).Sortable(true);
+            c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Details", "Details", new { id = x.Id }, new { @class = "btn btn-primary btn-sm" }));
+            c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Delete", "Delete", new { id = x.Id }, new { @class = "btn btn-primary btn-sm" }));
+            }).WithPaging(5).EmptyText("No data found")
+        </div>
+
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-sm" })
+    </div>
+
+@*</body>
+</html>*@
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Gridmvc")
+    <script>
+        var model = @Html.Raw(Json.Encode(Model));
+    </script>
+}
